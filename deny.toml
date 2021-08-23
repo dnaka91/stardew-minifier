@@ -1,0 +1,11 @@
+[licenses]
+allow = []
+allow-osi-fsf-free = "both"
+exceptions = [
+    { allow = ["AGPL-3.0"], name = "stardew-minifier", version = "*" },
+]
+
+[bans]
+skip = [
+    { name = "miniz_oxide", version = "=0.3.7" },
+]
