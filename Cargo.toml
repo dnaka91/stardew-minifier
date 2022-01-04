@@ -15,11 +15,11 @@ json5 = "0.4.1"
 quick-xml = "0.22.0"
 rayon = "1.5.1"
 serde_json = "1.0.74"
-structopt = "0.3.25"
 tar = { version = "0.4.38", default-features = false }
 tempfile = "3.2.0"
 zip = { version = "0.5.13", default-features = false, features = ["deflate"] }
 zstd = { version = "0.9.1", default-features = false }
+clap = { version = "3.0.1", features = ["derive"] }
 
 [dependencies.oxipng]
 version = "5.0.1"

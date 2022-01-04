@@ -1,65 +1,52 @@
 #![deny(rust_2018_idioms, clippy::all, clippy::pedantic)]
 #![allow(clippy::cast_possible_truncation)]
 
-use std::{borrow::Cow, str::FromStr};
+use std::borrow::Cow;
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result};
 use camino::Utf8PathBuf;
+use clap::{AppSettings, ArgEnum, Parser};
 use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 use models::ModData;
-use structopt::{clap::AppSettings, StructOpt};
 
 mod archive;
 mod extract;
 mod minify;
 mod models;
 
-#[derive(StructOpt)]
-#[structopt(
+#[derive(Parser)]
+#[clap(
     about,
     author,
-    setting = AppSettings::ColoredHelp,
+    version,
     setting = AppSettings::ArgRequiredElseHelp,
 )]
 pub struct Opt {
     /// Don't shrink JSON files.
-    #[structopt(long)]
+    #[clap(long)]
     no_json: bool,
     /// Don't shrink image (png) files.
-    #[structopt(long)]
+    #[clap(long)]
     no_images: bool,
     /// Don't shrink tile (tmx/tsx) files.
-    #[structopt(long)]
+    #[clap(long)]
     no_tiles: bool,
     /// The archive format to use.
-    #[structopt(long, default_value ="zstd", possible_values = &["zstd", "zip"])]
+    #[clap(long, arg_enum, default_value_t = Format::Zstd)]
     format: Format,
     /// Path to either a mod archive file (*.zip, *.tzst or *.tar.zst) or a folder containing the
     /// mod's content.
     path: Utf8PathBuf,
 }
 
+#[derive(Clone, Copy, ArgEnum)]
 enum Format {
     Zstd,
     Zip,
 }
 
-impl FromStr for Format {
-    type Err = anyhow::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(if s.eq_ignore_ascii_case("zstd") {
-            Self::Zstd
-        } else if s.eq_ignore_ascii_case("zip") {
-            Self::Zip
-        } else {
-            bail!("unsupported archive format `{}`", s)
-        })
-    }
-}
-
 fn main() -> Result<()> {
-    let opt = Opt::from_args();
+    let opt = Opt::parse();
 
     let data = extract::extract(&opt.path)?;
     minify::minify(&data, &opt)?;
