@@ -5,7 +5,7 @@ use std::borrow::Cow;
 
 use anyhow::{Context, Result};
 use camino::Utf8PathBuf;
-use clap::{AppSettings, ArgEnum, Parser};
+use clap::{ArgEnum, Parser};
 use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 use models::ModData;
 
@@ -15,12 +15,7 @@ mod minify;
 mod models;
 
 #[derive(Parser)]
-#[clap(
-    about,
-    author,
-    version,
-    setting = AppSettings::ArgRequiredElseHelp,
-)]
+#[clap(about, author, version, arg_required_else_help(true))]
 pub struct Opt {
     /// Don't shrink JSON files.
     #[clap(long)]
