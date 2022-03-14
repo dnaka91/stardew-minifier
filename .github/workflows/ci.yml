@@ -11,26 +11,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Setup Rust
-        uses: actions-rs/toolchain@v1
+        uses: taiki-e/github-actions/install-rust@main
         with:
-          profile: minimal
           toolchain: stable
-          override: true
       - name: Configure cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: test-${{ matrix.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        uses: Swatinem/rust-cache@v1
       - name: Test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-        continue-on-error: ${{ matrix.toolchain == 'nightly' }}
+        run: cargo test
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -38,36 +25,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Setup Rust (nightly)
-        uses: actions-rs/toolchain@v1
+        uses: taiki-e/github-actions/install-rust@main
         with:
           toolchain: nightly
-          override: true
-          components: rustfmt
+          component: rustfmt
       - name: Run rustfmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: -- --check
+        run: cargo fmt -- --check
       - name: Setup Rust (stable)
-        uses: actions-rs/toolchain@v1
+        uses: taiki-e/github-actions/install-rust@main
         with:
           toolchain: stable
-          override: true
+          component: clippy
       - name: Configure cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: lint-${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        uses: Swatinem/rust-cache@v1
       - name: Run clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
+        run: cargo clippy -- -D warnings
   cargo-deny:
     name: Cargo Deny
     runs-on: ubuntu-latest
@@ -81,6 +53,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Check ${{ matrix.checks }}
-        uses: EmbarkStudios/cargo-deny-action@v1
+        uses: dnaka91/actions/deny-check@main
         with:
-          command: check ${{ matrix.checks }}
+          checks: ${{ matrix.checks }}
