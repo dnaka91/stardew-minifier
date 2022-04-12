@@ -24,7 +24,6 @@ license-files = [
 skip = [
     { name = "clap", version = "=2.34.0" },
     { name = "miniz_oxide", version = "=0.3.7" },
-    { name = "miniz_oxide", version = "=0.4.4" },
     { name = "strsim", version = "=0.8.0" },
     { name = "textwrap", version = "=0.11.0" },
 ]
