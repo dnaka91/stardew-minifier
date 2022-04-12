@@ -28,3 +28,4 @@ features = ["binary", "filetime", "libdeflater"]
 
 [profile.release]
 lto = true
+strip = true
