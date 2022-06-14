@@ -5,7 +5,7 @@ use std::borrow::Cow;
 
 use anyhow::{Context, Result};
 use camino::Utf8PathBuf;
-use clap::{ArgEnum, Parser};
+use clap::{ValueEnum, Parser};
 use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 use models::ModData;
 
@@ -18,23 +18,24 @@ mod models;
 #[clap(about, author, version, arg_required_else_help(true))]
 pub struct Opt {
     /// Don't shrink JSON files.
-    #[clap(long)]
+    #[clap(long, action)]
     no_json: bool,
     /// Don't shrink image (png) files.
-    #[clap(long)]
+    #[clap(long, action)]
     no_images: bool,
     /// Don't shrink tile (tmx/tsx) files.
-    #[clap(long)]
+    #[clap(long, action)]
     no_tiles: bool,
     /// The archive format to use.
-    #[clap(long, arg_enum, default_value_t = Format::Zstd)]
+    #[clap(long, value_parser, value_enum, default_value_t = Format::Zstd)]
     format: Format,
     /// Path to either a mod archive file (*.zip, *.tzst or *.tar.zst) or a folder containing the
     /// mod's content.
+    #[clap(value_parser)]
     path: Utf8PathBuf,
 }
 
-#[derive(Clone, Copy, ArgEnum)]
+#[derive(Clone, Copy, ValueEnum)]
 enum Format {
     Zstd,
     Zip,
