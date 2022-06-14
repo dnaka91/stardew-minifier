@@ -8,6 +8,7 @@ description = "Shrink Stardew Valley mod files by optimizing assets"
 [dependencies]
 anyhow = "1.0.57"
 camino = "1.0.9"
+clap = { version = "3.2.1", features = ["derive"] }
 encoding_rs = "0.8.31"
 ignore = "0.4.18"
 indicatif = { version = "0.16.2", features = ["rayon"] }
@@ -19,7 +20,6 @@ tar = { version = "0.4.38", default-features = false }
 tempfile = "3.3.0"
 zip = { version = "0.6.2", default-features = false, features = ["deflate"] }
 zstd = { version = "0.11.2", default-features = false }
-clap = { version = "3.2.1", features = ["derive"] }
 
 [dependencies.oxipng]
 version = "5.0.1"
