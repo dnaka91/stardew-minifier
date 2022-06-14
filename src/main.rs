@@ -5,7 +5,7 @@ use std::borrow::Cow;
 
 use anyhow::{Context, Result};
 use camino::Utf8PathBuf;
-use clap::{ValueEnum, Parser};
+use clap::{Parser, ValueEnum};
 use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 use models::ModData;
 
