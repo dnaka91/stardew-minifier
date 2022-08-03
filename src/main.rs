@@ -1,7 +1,7 @@
 #![deny(rust_2018_idioms, clippy::all, clippy::pedantic)]
 #![allow(clippy::cast_possible_truncation)]
 
-use std::borrow::Cow;
+use std::{borrow::Cow, time::Duration};
 
 use anyhow::{Context, Result};
 use camino::Utf8PathBuf;
@@ -69,15 +69,16 @@ fn create_bar(
     const TEMPLATE: &str =
         "{spinner:.green} {msg:25} |{bar:40.cyan/blue}| {pos:>6} / {len} ({eta})";
 
-    let pb = ProgressBar::new(len as u64);
-    pb.set_message(message);
-    pb.set_style(
-        ProgressStyle::default_bar()
-            .template(TEMPLATE)
-            .progress_chars("█▉▊▋▌▍▎▏  ")
-            .on_finish(ProgressFinish::WithMessage(finish_message.into())),
-    );
-    pb.enable_steady_tick(250);
+    let pb = ProgressBar::new(len as u64)
+        .with_message(message)
+        .with_finish(ProgressFinish::WithMessage(finish_message.into()))
+        .with_style(
+            ProgressStyle::default_bar()
+                .template(TEMPLATE)
+                .unwrap()
+                .progress_chars("█▉▊▋▌▍▎▏  "),
+        );
+    pb.enable_steady_tick(Duration::from_millis(250));
     pb
 }
 
@@ -85,12 +86,10 @@ fn create_spinner(
     message: &'static str,
     finish_message: impl Into<Cow<'static, str>>,
 ) -> ProgressBar {
-    let pb = ProgressBar::new_spinner();
-    pb.set_message(message);
-    pb.set_style(
-        ProgressStyle::default_spinner()
-            .on_finish(ProgressFinish::WithMessage(finish_message.into())),
-    );
-    pb.enable_steady_tick(250);
+    let pb = ProgressBar::new_spinner()
+        .with_message(message)
+        .with_finish(ProgressFinish::WithMessage(finish_message.into()))
+        .with_style(ProgressStyle::default_spinner());
+    pb.enable_steady_tick(Duration::from_millis(250));
     pb
 }
