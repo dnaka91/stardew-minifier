@@ -1,28 +1,12 @@
-[advisories]
-ignore = [
-    "RUSTSEC-2020-0071",
-]
-
 [licenses]
 allow = []
 allow-osi-fsf-free = "both"
 exceptions = [
-    { allow = ["AGPL-3.0"], name = "stardew-minifier", version = "*" },
-    { allow = ["Unicode-DFS-2016"], name = "unicode-ident", version = "*" },
-]
-
-[[licenses.clarify]]
-name = "encoding_rs"
-version = "*"
-expression = "(Apache-2.0 OR MIT) AND BSD-3-Clause"
-license-files = [
-    { path = "COPYRIGHT", hash = 0x39f8ad31 },
+    { allow = ["AGPL-3.0"], name = "stardew-minifier" },
+    { allow = ["Unicode-DFS-2016"], name = "unicode-ident" },
 ]
 
 [bans]
 skip = [
-    { name = "clap", version = "=2.34.0" },
-    { name = "miniz_oxide", version = "=0.3.7" },
-    { name = "strsim", version = "=0.8.0" },
-    { name = "textwrap", version = "=0.11.0" },
+    { name = "miniz_oxide", version = "=0.5.4" },
 ]

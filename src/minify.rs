@@ -96,11 +96,12 @@ fn minify_xml(path: Utf8PathBuf) -> Result<()> {
     reader.trim_text(true);
 
     loop {
-        match reader.read_event(&mut buf) {
+        match reader.read_event_into(&mut buf) {
             Ok(Event::Eof) => break,
             Ok(event) => writer.write_event(event)?,
             Err(e) => return Err(e.into()),
         }
+        buf.clear();
     }
 
     std::fs::write(path, writer.into_inner().into_inner())?;
