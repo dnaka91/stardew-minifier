@@ -15,28 +15,29 @@ mod minify;
 mod models;
 
 #[derive(Parser)]
-#[clap(about, author, version, arg_required_else_help(true))]
+#[command(about, author, version, arg_required_else_help = true)]
 pub struct Opt {
     /// Don't shrink JSON files.
-    #[clap(long)]
+    #[arg(long)]
     no_json: bool,
     /// Don't shrink image (png) files.
-    #[clap(long)]
+    #[arg(long)]
     no_images: bool,
     /// Don't shrink tile (tmx/tsx) files.
-    #[clap(long)]
+    #[arg(long)]
     no_tiles: bool,
     /// The archive format to use.
-    #[clap(long, value_enum, default_value_t = Format::Zstd)]
+    #[arg(long, value_enum, default_value_t)]
     format: Format,
     /// Path to either a mod archive file (*.zip, *.tzst or *.tar.zst) or a folder containing the
     /// mod's content.
-    #[clap(value_hint = ValueHint::AnyPath)]
+    #[arg(value_hint = ValueHint::AnyPath)]
     path: Utf8PathBuf,
 }
 
-#[derive(Clone, Copy, ValueEnum)]
+#[derive(Clone, Copy, Default, ValueEnum)]
 enum Format {
+	#[default]
     Zstd,
     Zip,
 }

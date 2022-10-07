@@ -8,10 +8,10 @@ description = "Shrink Stardew Valley mod files by optimizing assets"
 [dependencies]
 anyhow = "1.0.65"
 camino = "1.1.1"
-clap = { version = "3.2.21", features = ["derive"] }
+clap = { version = "4.0.10", features = ["derive"] }
 encoding_rs = "0.8.31"
 ignore = "0.4.18"
-indicatif = { version = "0.17.0", features = ["rayon"] }
+indicatif = { version = "0.17.1", features = ["rayon"] }
 json5 = "0.4.1"
 quick-xml = "0.25.0"
 rayon = "1.5.3"
