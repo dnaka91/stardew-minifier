@@ -37,7 +37,7 @@ pub struct Opt {
 
 #[derive(Clone, Copy, Default, ValueEnum)]
 enum Format {
-	#[default]
+    #[default]
     Zstd,
     Zip,
 }
