@@ -26,15 +26,15 @@ pub fn minify(data: &ModData, opt: &Opt) -> Result<()> {
                 match ext {
                     "json" if !opt.no_json => {
                         minify_json(data.path().join(file))
-                            .with_context(|| format!("failed minifying json file {:?}", file))?;
+                            .with_context(|| format!("failed minifying json file {file:?}"))?;
                     }
                     "png" if !opt.no_images => {
                         minify_png(data.path().join(file))
-                            .with_context(|| format!("failed minifying png file {:?}", file))?;
+                            .with_context(|| format!("failed minifying png file {file:?}"))?;
                     }
                     "tmx" | "tsx" if !opt.no_tiles => {
                         minify_xml(data.path().join(file))
-                            .with_context(|| format!("failed minifying tmx/tsx file {:?}", file))?;
+                            .with_context(|| format!("failed minifying tmx/tsx file {file:?}"))?;
                     }
                     _ => {}
                 }
@@ -76,7 +76,7 @@ fn minify_png(path: Utf8PathBuf) -> Result<()> {
 
     let mut opts = Options::max_compression();
     opts.strip = Headers::All;
-    opts.deflate = Deflaters::Libdeflater;
+    opts.deflate = Deflaters::Libdeflater { compression: 12 };
 
     oxipng::optimize(
         &InFile::Path(path.into_std_path_buf()),

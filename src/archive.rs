@@ -83,7 +83,7 @@ fn output_file_name(path: &Utf8Path) -> Utf8PathBuf {
         .or_else(|| out.strip_suffix(".tzst"))
         .or_else(|| out.strip_suffix(".tar.zst"))
         .unwrap_or(out);
-    let out = format!("{}.out", out);
+    let out = format!("{out}.out");
 
     #[allow(clippy::map_unwrap_or)]
     path.parent()
