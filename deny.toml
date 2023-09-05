@@ -8,5 +8,8 @@ exceptions = [
 
 [bans]
 skip = [
-    { name = "miniz_oxide", version = "=0.5.4" },
+    { name = "bitflags", version = "1" },
+]
+skip-tree = [
+    { name = "windows-sys", version = "0.45", depth = 3 },
 ]
