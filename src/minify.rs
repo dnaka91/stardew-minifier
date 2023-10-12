@@ -72,15 +72,18 @@ fn minify_json(path: Utf8PathBuf) -> Result<()> {
 }
 
 fn minify_png(path: Utf8PathBuf) -> Result<()> {
-    use oxipng::{Deflaters, Headers, InFile, Options, OutFile};
+    use oxipng::{Deflaters, InFile, Options, OutFile, StripChunks};
 
     let mut opts = Options::max_compression();
-    opts.strip = Headers::All;
+    opts.strip = StripChunks::All;
     opts.deflate = Deflaters::Libdeflater { compression: 12 };
 
     oxipng::optimize(
         &InFile::Path(path.into_std_path_buf()),
-        &OutFile::Path(None),
+        &OutFile::Path {
+            path: None,
+            preserve_attrs: true,
+        },
         &opts,
     )
     .map_err(Into::into)
