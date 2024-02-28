@@ -1,6 +1,11 @@
 [licenses]
-allow = []
-allow-osi-fsf-free = "both"
+version = 2
+allow = [
+	"Apache-2.0",
+	"BSD-3-Clause",
+	"ISC",
+	"MIT",
+]
 exceptions = [
     { allow = ["AGPL-3.0"], name = "stardew-minifier" },
     { allow = ["Unicode-DFS-2016"], name = "unicode-ident" },
@@ -9,7 +14,4 @@ exceptions = [
 [bans]
 skip = [
     { name = "bitflags", version = "1" },
-]
-skip-tree = [
-    { name = "windows-sys", version = "0.45", depth = 3 },
 ]
